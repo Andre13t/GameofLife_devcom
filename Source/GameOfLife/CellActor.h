@@ -21,14 +21,17 @@ public:
 	// create a static mesh component we can use and this is a class off UStaticMeshComponent,
 	// and a garbage collectio can collect any time and u have do put a UPROPERTY()
 	
-	UPROPERTY() UStaticMeshComponent* StaticMeshComponent;
+	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* StaticMeshComponent;
 
 protected:
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:	
 	UPROPERTY() UStaticMesh* AliveMesh;
 	UPROPERTY() UStaticMesh* DeadMesh;
-
+	
+	void SetCellDead();
+	void SetCellAlive();
 };

@@ -18,11 +18,43 @@ ACellActor::ACellActor()
 	// this is a bad thing to do because if the file changes the location it will break
 
 
-	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAssetAlive(TEXT("StaticMesh'/Engine/BasicShapes/Cube.Cube'"));
-	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAssetDead(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
+	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAssetAlive(TEXT("StaticMesh'/Game/Assets/Cube.Cube'"));
+	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAssetDead(TEXT("StaticMesh'/Game/Assets/Sphere.Sphere'"));
 
-	AliveMesh = MeshAssetAlive.Object;
-	DeadMesh = MeshAssetDead.Object;
+	// test if the objetc is working correctly
+	if (MeshAssetAlive.Object)
+	{
+		AliveMesh = MeshAssetAlive.Object;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ACellActor::ACellActor() : Failed to find mesh asset for alive state"));
+	}
+	if (MeshAssetDead.Object)
+	{
+		DeadMesh = MeshAssetDead.Object;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ACellActor::ACellActor() : Failed to find mesh asset for dead state"));
+	}
+	
+	SetCellDead();
+	
+	// attach our loaded static mesh to the root component to show it
+	StaticMeshComponent->SetupAttachment(RootComponent);
+}
+
+// define the mesh that will be the dead
+void ACellActor::SetCellDead()
+{
+	StaticMeshComponent->SetStaticMesh(DeadMesh);
+}
+
+// define the mesh that will be the Alive
+void ACellActor::SetCellAlive()
+{
+	StaticMeshComponent->SetStaticMesh(AliveMesh);
 }
 
 // Called when the game starts or when spawned
