@@ -32,6 +32,11 @@ private:
 	UPROPERTY() UStaticMesh* AliveMesh;
 	UPROPERTY() UStaticMesh* DeadMesh;
 	
+	UFUNCTION() void ChangeState();
+	
+	bool isAllive{};
+	
 	void SetCellDead();
 	void SetCellAlive();
+	
 };
